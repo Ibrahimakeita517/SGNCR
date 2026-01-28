@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUGUNI COURA</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    @keyframes apparitionLogo {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="header-content">
+        <div class="logo">SUGUNI COURA</div>
+        
+        <!-- 🔍 Barre de recherche intégrée au header -->
+        <div class="search-container">
+          <div class="input-wrapper">
+            <input type="text" id="searchInput" placeholder="Rechercher un produit (Riz, Sucre, Huile...)">
+            <span id="btnClearSearch" class="clear-icon" style="display: none;">✕</span>
+          </div>
+          <button id="btnSearch" class="search-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+        </div>
+
+        <button id="btn-menu-mobile" class="hamburger-btn">☰</button>
+
+        <div class="header-icons" id="nav-menu">
+          <span id="btn-auth" style="cursor: pointer; margin-right: 15px;">👤 Connexion</span>
+          <span onclick="ouvrirModalParrainage()" style="cursor: pointer; margin-right: 15px;">🎁 Parrainage</span>
+          <span id="btn-theme" style="cursor: pointer; margin-right: 15px;">🌙 Mode Sombre</span>
+          <span onclick="ouvrirPageHistorique()" style="cursor: pointer; margin-right: 15px;">📜 Historique</span>
+          <span onclick="ouvrirPageContact()" style="cursor: pointer; margin-right: 15px;">📞 Contact</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 🏷️ Filtres sous le header (Style Menu) -->
+    <div class="filtres-container">
+      <button class="btn-filtre active" data-categorie="Tout">Tout</button>
+
+      <select id="triProduits" class="select-tri">
+        <option value="defaut">Trier par : Pertinence</option>
+        <option value="croissant">Prix : Croissant ( - cher)</option>
+        <option value="decroissant">Prix : Décroissant ( + cher)</option>
+      </select>
+    </div>
+
+    <!-- 🎠  Publicitaire -->
+    <div class="carousel-container">
+      <div class="carousel-slide">
+        <picture>
+          <source media="(max-width: 768px)" srcset="https://placehold.co/600x350/007185/white?text=Bienvenue+sur%0ASUGUNI+COURA">
+          <img src="https://placehold.co/1200x300/007185/white?text=Bienvenue+sur+SUGUNI+COURA" alt="Promo 1">
+        </picture>
+        <picture>
+          <source media="(max-width: 768px)" srcset="https://placehold.co/600x350/febd69/black?text=Livraison+Gratuite%0Apartout+a+Bamako">
+          <img src="https://placehold.co/1200x300/febd69/black?text=Livraison+Gratuite+partout+a+Bamako" alt="Promo 2">
+        </picture>
+        <picture>
+          <source media="(max-width: 768px)" srcset="https://placehold.co/600x350/131921/white?text=Gagnez+des+points%0Apour+reduire+vos+prix">
+          <img src="https://placehold.co/1200x300/131921/white?text=Connectez-vous+:+Gagnez+des+points+pour+reduire+vos+prix" alt="Promo 3">
+        </picture>
+      </div>
+      <button id="prevBtn">❮</button>
+      <button id="nextBtn">❯</button>
+      <div class="carousel-indicators" id="carouselIndicators"></div>
+    </div>
+
+    <main>
+      <!-- 🎬 Écran de démarrage (Splash Screen) -->
+      <div id="splashScreen" class="splash-screen" style="background: #ffffff; color: #333; display: flex; justify-content: center; align-items: center;">
+        <div class="splash-content" style="text-align: center;">
+          <img src="img/page de demarage.jpg" alt="Bienvenue" style="max-width: 350px; margin-bottom: 15px; border-radius: 10px; animation: apparitionLogo 1.5s ease-out;">
+          <h1 class="splash-logo">SUGUNI COURA</h1>
+          <p></p>
+          <div class="spinner"></div>
+        </div>
+      </div>
+
+      <div id="listeProduits" class="grid-produits" style="display: none;"></div>
+
+      <!-- 📞 Page Contact (Cachée par défaut) -->
+      <div id="contactPage" class="contact-container" style="display: none;">
+        <h2>Nous Contacter</h2>
+        <p>Une question ? Besoin d'un devis pour une grosse commande ? Écrivez-nous !</p>
+        <form id="contactForm">
+          <div class="form-group">
+            <label>Nom complet</label>
+            <input type="text" id="contactNom" required placeholder="Votre nom">
+          </div>
+          <div class="form-group">
+            <label>Email ou Téléphone</label>
+            <input type="text" id="contactContact" required placeholder="Votre email ou numéro">
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea id="contactMessage" rows="5" required placeholder="Votre message..."></textarea>
+          </div>
+          <button type="submit" id="btn-envoyer-contact">Envoyer le message</button>
+        </form>
+
+        <!-- 🗺️ Carte Google Maps -->
+        <div class="map-container">
+          <h3>Notre Emplacement</h3>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d249165.6309837866!2d-8.081703449999999!3d12.612349!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xe51cd10e274206b%3A0x746546e596430d72!2sBamako%2C%20Mali!5e0!3m2!1sfr!2sfr!4v1709220000000!5m2!1sfr!2sfr" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <button onclick="fermerPageContact()" class="btn-retour" style="margin-top: 20px;">❮ Retour à la boutique</button>
+      </div>
+
+      <!-- 📜 Page Historique (Cachée par défaut) -->
+      <div id="historiquePage" class="historique-container" style="display: none;">
+        <h2>📜 Mes Commandes Récentes</h2>
+        <div id="listeHistorique"></div>
+        <button onclick="fermerPageHistorique()" class="btn-retour" style="margin-top: 20px;">❮ Retour à la boutique</button>
+      </div>
+
+      <!-- 👤 Page Profil (Cachée par défaut) -->
+      <div id="profilPage" class="profil-container" style="display: none;">
+        <h2>👤 Mon Profil</h2>
+        
+        <div class="profil-header">
+          <div class="points-badge">
+            <span style="font-size: 2rem;">💎</span>
+            <div>
+              <strong>Mes Points</strong>
+              <div style="font-size: 1.5rem; color: var(--accent-color);" id="profilPoints">0</div>
+            </div>
+          </div>
+          <div class="referral-badge">
+              <strong>Mon Code Parrain</strong>
+              <div id="profilReferral" style="font-weight: bold; letter-spacing: 1px;">-</div>
+          </div>
+        </div>
+
+        <form id="profilForm">
+          <h3>Mes Informations</h3>
+          <div class="form-group"><label>Nom d'utilisateur</label><input type="text" id="editUser" disabled style="background: #eee; cursor: not-allowed;"></div>
+          <div class="form-group"><label>Téléphone</label><input type="tel" id="editTel"></div>
+          <div class="form-group"><label>Quartier</label><input type="text" id="editQuartier"></div>
+          <div class="form-group">
+            <label>Nouveau mot de passe (laisser vide pour ne pas changer)</label>
+            <div class="password-wrapper">
+              <input type="password" id="editPass" placeholder="******">
+              <span class="toggle-password" onclick="togglePassword('editPass', this)">👁️</span>
+            </div>
+          </div>
+          <button type="submit" id="btn-save-profil">Enregistrer les modifications</button>
+        </form>
+
+        <button onclick="logoutUser()" class="btn-logout" style="margin-top: 20px; background: #e74c3c; color: white; border: none; padding: 10px; border-radius: 4px; width: 100%; cursor: pointer; font-weight: bold;">🚪 Se déconnecter</button>
+        <button onclick="fermerPageProfil()" class="btn-retour" style="margin-top: 20px;">❮ Retour à la boutique</button>
+      </div>
+
+      <!-- 💳 Page Paiement (Checkout) - Cachée par défaut -->
+      <div id="checkoutPage" class="checkout-container" style="display: none;">
+        <h2>Finaliser votre commande</h2>
+        <div class="checkout-layout">
+          <!-- Récapitulatif -->
+          <div class="checkout-summary">
+            <h3>Récapitulatif du panier</h3>
+            <ul id="listePanierCheckout"></ul>
+            <!-- Option Points de Fidélité -->
+            <div id="divPoints" style="display: none; margin-bottom: 15px; padding: 10px; background: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 4px;">
+              <label style="display: flex; align-items: center; cursor: pointer; font-size: 0.9rem;">
+                <input type="checkbox" id="usePoints" style="width: auto; margin-right: 10px;">
+                <span>Utiliser <strong id="userPointsDisplay">0</strong> points (-<span id="discountValue">0</span> F)</span>
+              </label>
+            </div>
+            <p class="total"><strong>Total à payer : </strong><span id="totalCheckout">0</span> FCFA</p>
+          </div>
+
+          <!-- Formulaire -->
+          <div class="checkout-form">
+            <h3>🚚 Adresse de Livraison</h3>
+            <!-- Message Fidélité -->
+            <div id="loyaltyMessage" style="margin-bottom: 15px; padding: 10px; background: #e3f2fd; border-radius: 4px; font-size: 0.9rem; display: none;"></div>
+
+            <div class="form-group"><input type="text" id="quartier" placeholder="Quartier"></div>
+            <div class="form-group"><input type="text" id="rue" placeholder="Rue"></div>
+            <div class="form-group"><input type="text" id="porte" placeholder="Porte"></div>
+            <div class="form-group"><input type="tel" id="telephone" placeholder="Téléphone"></div>
+
+            <h3>💳 Paiement</h3>
+            <div class="payment-options">
+              <label class="payment-option">
+                <input type="radio" name="paiement" value="orange">
+                <img src="https://placehold.co/40x25/orange/white?text=OM" alt="OM"> <span>Orange Money</span>
+              </label>
+              <label class="payment-option">
+                <input type="radio" name="paiement" value="wave">
+                <img src="https://placehold.co/40x25/1dc4ff/white?text=Wave" alt="Wave"> <span>Wave</span>
+              </label>
+              <label class="payment-option">
+                <input type="radio" name="paiement" value="sama">
+                <img src="https://placehold.co/40x25/green/white?text=Sama" alt="Sama"> <span>Sama Money</span>
+              </label>
+            </div>
+            <button id="btn-valider">Confirmer la commande</button>
+            <div id="confirmationMessage"></div>
+          </div>
+        </div>
+        <button onclick="fermerPageCheckout()" class="btn-retour" style="margin-top: 20px;">❮ Retour au panier</button>
+      </div>
+
+      <!-- ✨ Page Détails Produit (Cachée par défaut) -->
+      <div id="detailProduit" class="detail-container" style="display: none;">
+        <button onclick="fermerPageDetail()" class="btn-retour">❮ Retour aux résultats</button>
+        <div class="detail-content">
+          <div class="detail-image">
+            <div id="zoomContainer" class="zoom-container">
+              <img id="detailImg" src="" alt="">
+            </div>
+            <div id="detailThumbnails" class="thumbnails-container"></div>
+          </div>
+          <div class="detail-info">
+            <h2 id="detailNom"></h2>
+            <div class="stars" id="detailEtoiles"></div>
+            <p class="prix" id="detailPrix"></p>
+            <p class="description"><strong>À propos de cet article :</strong><br>
+            Ce produit est sélectionné pour sa qualité supérieure. Idéal pour la vente en gros et les grandes familles. Stocké dans des conditions optimales.</p>
+            <button id="btn-ajout-detail">Ajouter au panier</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-droite">
+        <section id="panier">
+          <h2>🛒 Votre Panier</h2>
+          <ul id="listePanier"></ul>
+          <p class="total"><strong>Total : </strong><span id="total">0</span> FCFA</p>
+          <button id="btn-vider-panier" class="btn-secondary" style="width: 100%; margin-top: 10px;">🗑️ Vider le panier</button>
+          <button id="btn-go-checkout" style="width: 100%; margin-top: 15px; background: #ffd814; border: none; padding: 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 1rem;">Passer à la caisse</button>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <p>Bienvenue sur SUGUNI COURA. Application web de vente en ligne pour moderniser le commerce à Bamako.</p>
+      <h4>Créateur: Ibrahima Keita</h4>
+      <p>“Je suis Ibrahima Keita, jeune développeur autodidacte.”</p>
+    </footer>
+
+    <!-- Bouton flottant mobile -->
+    <button id="btn-floating-panier" class="btn-flottant">🛒 Panier (<span id="compteur-panier">0</span>)</button>
+
+    <!-- Bouton Retour en haut -->
+    <button id="btn-back-to-top" title="Retour en haut">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 19V5M5 12l7-7 7 7"/>
+      </svg>
+    </button>
+
+    <!-- Fenêtre Modale de Confirmation (OTP) -->
+    <div id="otpModal" class="modal">
+      <div class="modal-content">
+        <h3>🔐 Confirmation de paiement</h3>
+        <p>Un code de validation a été envoyé au <strong id="confirmTel"></strong>.</p>
+        <p class="code-simulation">Code reçu (simulation) : <strong id="testCode" style="color: #d32f2f;"></strong></p>
+        <input type="text" id="otpInput" placeholder="Entrez le code à 4 chiffres" maxlength="4">
+        <button id="btn-verify-otp">Confirmer le paiement</button>
+        <button id="btn-close-modal" class="btn-secondary">Annuler</button>
+      </div>
+    </div>
+
+    <!-- Fenêtre Modale Connexion / Inscription -->
+    <div id="authModal" class="modal">
+      <div class="modal-content">
+        <div class="auth-tabs">
+          <button id="tab-login" class="active" onclick="switchAuthTab('login')">Se connecter</button>
+          <button id="tab-register" onclick="switchAuthTab('register')">S'inscrire</button>
+        </div>
+        
+        <!-- Formulaire Connexion -->
+        <form id="loginForm">
+          <div class="form-group"><input type="text" id="loginUser" placeholder="Nom d'utilisateur" required></div>
+          <div class="form-group">
+            <div class="password-wrapper">
+              <input type="password" id="loginPass" placeholder="Mot de passe" required>
+              <span class="toggle-password" onclick="togglePassword('loginPass', this)">👁️</span>
+            </div>
+          </div>
+          <button type="submit" id="btn-login-submit">Connexion</button>
+        </form>
+
+        <!-- Formulaire Inscription -->
+        <form id="registerForm" style="display: none;">
+          <div class="form-group"><input type="text" id="regUser" placeholder="Nom d'utilisateur" required></div>
+          <div class="form-group">
+            <div class="password-wrapper">
+              <input type="password" id="regPass" placeholder="Mot de passe" required>
+              <span class="toggle-password" onclick="togglePassword('regPass', this)">👁️</span>
+            </div>
+          </div>
+          <div class="form-group"><input type="text" id="regQuartier" placeholder="Votre Quartier (pour livraison)"></div>
+          <div class="form-group"><input type="tel" id="regTel" placeholder="Votre Téléphone"></div>
+          <div class="form-group"><input type="text" id="regReferral" placeholder="Code de parrainage (Optionnel)"></div>
+          <button type="submit" id="btn-register-submit">Créer mon compte</button>
+        </form>
+        <button onclick="fermerModalAuth()" class="btn-secondary" style="margin-top: 10px;">Fermer</button>
+      </div>
+    </div>
+
+    <!-- Fenêtre Modale Parrainage -->
+    <div id="referralModal" class="modal">
+      <div class="modal-content">
+        <h3>🎁 Parrainez vos amis !</h3>
+        <p>Invitez vos amis sur SUGUNI COURA et gagnez des points.</p>
+        <ul style="text-align: left; margin: 15px 0; font-size: 0.9rem;">
+          <li>✅ Vous gagnez <strong>500 points</strong> par ami inscrit.</li>
+          <li>✅ Votre ami gagne <strong>200 points</strong> de bienvenue.</li>
+        </ul>
+        
+        <div class="referral-box">
+          <p>Votre code de parrainage :</p>
+          <h2 id="myReferralCode">---</h2>
+          <button onclick="copierCodeParrainage()" class="btn-secondary" style="margin-top: 10px; font-size: 0.9rem;">📋 Copier le code</button>
+        </div>
+        
+        <button onclick="fermerModalParrainage()" class="btn-secondary" style="margin-top: 20px;">Fermer</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
