@@ -3,7 +3,7 @@
   --primary-color: #232f3e; /* Bleu un peu plus clair */
   --accent-color: #febd69; /* Jaune Amazon pour les boutons */
   --accent-hover: #f3a847;
-  --price-color: #B12704; /* Rouge pour le prix */
+  --price-color: #2e7d32; /* Vert foncé professionnel pour le prix */
   --bg-color: #eaeded; /* Gris clair typique des sites e-commerce */
   --card-bg: #ffffff;
   --text-color: #0F1111;
@@ -469,7 +469,7 @@ ul#listePanier li {
   font-size: 1.2rem;
   text-align: right;
   margin-top: 20px;
-  color: #B12704;
+  color: var(--price-color);
 }
 
 /* --- FORMULAIRES --- */
@@ -975,7 +975,7 @@ footer h4 {
 .commande-total {
   text-align: right;
   font-weight: bold;
-  color: #B12704;
+  color: var(--price-color);
   margin-top: 10px;
   font-size: 1.1rem;
 }
@@ -1004,7 +1004,7 @@ body.dark-mode {
   --text-color: #e0e0e0;
   --header-bg: #000000;
   --shadow: 0 2px 5px rgba(255,255,255,0.1);
-  --price-color: #ff8a80;
+  --price-color: #81c784; /* Vert clair pour le mode sombre */
 }
 
 /* Ajustements spécifiques pour le mode sombre */
