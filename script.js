@@ -6,9 +6,9 @@ const produits = [
   { nom: "Sac NIDO en poudre (25kg)", prix: 55000, image: "img/nido.jpg", image2: "img/nido2.jpg", categorie: "Épicerie", promo: "-5000F" },
   { nom: "Carton Pâtes (10kg)", prix: 6500, image: "img/pate.jpg", image2: "img/pate2.jpg", categorie: "Céréales" },
   { nom: "Carton Tomate", prix: 11000, image: "img/tomate.jpg", image2: "img/tomate2.jpg", categorie: "Épicerie" },
-  { nom: "Sac Farine de mil (50kg)", prix: 17500, image: "img/farine-mil.jpg", image2: "img/farine-mil2.jpg", categorie: "Céréales" },
-  { nom: "Sac Farine de maïs (50kg)", prix: 15000, image: "img/farine-mais.jpg", image2: "img/farine-mais2.jpg", categorie: "Céréales" },
-  { nom: "Sac Sel iodé (20kg)", prix: 2500, image: "img/sel.jpg", image2: "img/sel2.jpg", categorie: "Épicerie", promo: "Nouveau" },
+  { nom: "Jus pressea", prix: 17500, image: "img/pressea.jpg", image2: "img/pressea2.jpg", categorie: "Céréales" },
+  { nom: "Cereal", prix: 15000, image: "img/cereal.jpg", image2: "img/cereal2.jpg", categorie: "Céréales" },
+  { nom: "Lipton", prix: 2500, image: "img/lipton.jpg", image2: "img/lipton2.jpg", categorie: "Épicerie", promo: "Nouveau" },
 ];
 
 // Chargement du panier depuis le LocalStorage (mémoire du navigateur)
@@ -340,25 +340,15 @@ function afficherProduits() {
     p.setAttribute("data-nom", produit.nom.toLowerCase());
     p.setAttribute("data-categorie", produit.categorie); // Ajout de l'attribut catégorie
 
-    // Génération aléatoire d'étoiles et d'avis pour l'effet réaliste
-    const nbEtoiles = Math.floor(Math.random() * 2) + 4; // Donne 4 ou 5 étoiles
-    const etoiles = "⭐".repeat(nbEtoiles);
-    const nbAvis = Math.floor(Math.random() * 300) + 10; // Entre 10 et 310 avis
-
-    // Badge promo si existant
-    const badgeHtml = produit.promo ? `<span class="badge-promo">${produit.promo}</span>` : '';
-
     // Image au survol (utilise une image générée si pas définie dans l'objet produit)
     const imageHover = produit.image2 || `https://placehold.co/300x300/f0f0f0/333?text=${encodeURIComponent(produit.nom)}+Vue+2`;
 
     p.innerHTML = `
-      ${badgeHtml}
       <div class="produit-image-wrapper" onclick="ouvrirPageDetail(${index})" style="cursor: pointer">
         <img src="${produit.image}" alt="${produit.nom}" class="img-normal">
         <img src="${imageHover}" alt="${produit.nom} Vue 2" class="img-hover">
       </div>
       <h3>${produit.nom}</h3>
-      <div class="stars">${etoiles} <span class="avis">(${nbAvis})</span></div>
       <p>${produit.prix} FCFA</p>
       <button onclick="ajouterAuPanier(${index})">
         <span class="btn-icon">🛒</span> <span class="btn-text">Ajouter au panier</span>
@@ -499,10 +489,6 @@ function ouvrirPageDetail(index) {
   document.getElementById('detailNom').textContent = produit.nom;
   document.getElementById('detailPrix').textContent = produit.prix + " FCFA";
   
-  // Générer des étoiles aléatoires pour la démo (ou récupérer celles de la liste si stockées)
-  const nbEtoiles = 4; 
-  document.getElementById('detailEtoiles').innerHTML = "⭐".repeat(nbEtoiles) + ' <span class="avis">(Avis vérifiés)</span>';
-
   // --- Galerie d'images (Thumbnails) ---
   const thumbnailsDiv = document.getElementById('detailThumbnails');
   thumbnailsDiv.innerHTML = ""; // Nettoyer les anciennes miniatures
